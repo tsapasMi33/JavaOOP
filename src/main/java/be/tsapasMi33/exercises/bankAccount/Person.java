@@ -1,4 +1,4 @@
-package be.tsapasMi33.exercises;
+package be.tsapasMi33.exercises.bankAccount;
 
 import java.time.LocalDate;
 

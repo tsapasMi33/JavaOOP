@@ -1,15 +1,15 @@
-package be.tsapasMi33.exercises;
+package be.tsapasMi33.exercises.bankAccount;
 
 public class Current {
     static long ibanCounter = 283033000000000L;
 
-    private String iban;
+    private final String iban;
     private double balance;
     private double line;
-    private Person owner;
+    private final Person owner;
 
     public Current(Person owner) {
-        this.iban = "BE" + String.valueOf(ibanCounter++);
+        this.iban = "BE" + ibanCounter++;
         this.owner = owner;
     }
 
@@ -46,6 +46,9 @@ public class Current {
     }
 
     public void deposit(double amount) {
+        if (amount < 0){
+            return;
+        }
         balance += amount;
     }
 
