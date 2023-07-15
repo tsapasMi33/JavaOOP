@@ -1,4 +1,4 @@
-package be.tsapasMi33.exercises.carRace;
+package be.tsapasMi33.exercises.carrace;
 
 public class Circuit {
 

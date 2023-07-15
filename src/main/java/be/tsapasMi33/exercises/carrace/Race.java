@@ -1,4 +1,4 @@
-package be.tsapasMi33.exercises.carRace;
+package be.tsapasMi33.exercises.carrace;
 
 import java.util.ArrayList;
 import java.util.Comparator;

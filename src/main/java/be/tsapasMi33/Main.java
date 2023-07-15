@@ -1,6 +1,6 @@
 package be.tsapasMi33;
 
-import be.tsapasMi33.exercises.carRace.Race;
+import be.tsapasMi33.exercises.carrace.Race;
 
 
 public class Main {

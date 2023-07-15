@@ -1,4 +1,4 @@
-package be.tsapasMi33.exercises.bankAccount;
+package be.tsapasMi33.exercises.bankaccount;
 
 public class Current {
     static long ibanCounter = 283033000000000L;
