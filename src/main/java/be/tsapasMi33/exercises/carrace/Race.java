@@ -5,14 +5,30 @@ import java.util.Comparator;
 import java.util.Random;
 import java.util.Scanner;
 
+
+record lapTime(Car car, double time){
+
+    @Override
+    public double time() {
+        return time;
+    }
+
+    @Override
+    public String toString() {
+        return car +
+                "\ntotal time=" + time + " minutes";
+    }
+}
+
 public class Race {
     private final Circuit circuit;
-    private final ArrayList<Time> results = new ArrayList<>();
+    private final ArrayList<lapTime> results;
 
 
     public Race() {
         Scanner s = new Scanner(System.in);
 
+        results = new ArrayList<>();
         System.out.print("Enter distance of circuit in km: ");
         int km = Integer.parseInt(s.nextLine());
         System.out.print("Enter number of rounds: ");
@@ -36,7 +52,7 @@ public class Race {
         System.out.print("Press enter to start the race");
         s.nextLine();
         startRace(cars);
-        results.sort(Comparator.comparingDouble(Time::getTotalTime));
+        results.sort(Comparator.comparingDouble(lapTime::time));
         System.out.println("\n\n");
         for (int i = 0; i < results.size(); i++) {
             System.out.println("Place #" + (i+1));
@@ -46,37 +62,18 @@ public class Race {
 
     public void startRace(Car[] cars) {
         Random r = new Random();
-        for (int i = 0; i < cars.length; i++) {
-            System.out.println(cars[i].toString());
-            double totalTime =0;
-            for (int j = 1; j <= circuit.getRounds(); j++) {
-                System.out.print("Round #" + j + "-");
-                double lapTime = (double) r.nextInt(cars[i].getVMin(),cars[i].getVMax()) / circuit.getDistance() ;
-                System.out.println(lapTime);
-                totalTime += lapTime;
+        double[] lapTimes = new double[cars.length];
+        for (int i = 0; i < circuit.getRounds(); i++) {
+            System.out.println("--> Lap #" + (i+1) + " <--");
+            for (int j = 0; j < cars.length; j++) {
+                double lapTime = (double) circuit.getDistance() / ((double) r.nextInt(cars[j].getVMin(), cars[j].getVMax()) / 60);
+                lapTimes[j] += lapTime;
+                System.out.println(cars[j] + " -> " + lapTime + " minutes");
             }
-            results.add(new Time(cars[i], totalTime));
+        }
+        for (int i = 0; i < cars.length; i++) {
+            results.add(new lapTime(cars[i], lapTimes[i]));
         }
     }
 
-}
-
-class Time {
-    private final Car car;
-    private final double totalTime;
-
-    public Time(Car car, double totalTime) {
-        this.car = car;
-        this.totalTime = totalTime;
-    }
-
-    public double getTotalTime() {
-        return totalTime;
-    }
-
-    @Override
-    public String toString() {
-        return car +
-                "\ntotal time=" + totalTime + " minutes";
-    }
 }
