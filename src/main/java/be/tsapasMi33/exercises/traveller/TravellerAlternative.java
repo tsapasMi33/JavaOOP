@@ -1,4 +1,4 @@
-package be.tsapasMi33.exercises.LinkedListChallenge;
+package be.tsapasMi33.exercises.traveller;
 
 import java.util.Comparator;
 import java.util.LinkedList;
