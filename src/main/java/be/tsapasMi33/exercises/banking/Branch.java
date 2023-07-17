@@ -1,4 +1,4 @@
-package be.tsapasMi33.exercises.Banking;
+package be.tsapasMi33.exercises.banking;
 
 import java.util.ArrayList;
 

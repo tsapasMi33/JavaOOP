@@ -1,4 +1,4 @@
-package be.tsapasMi33.exercises.bankaccount;
+package be.tsapasMi33.exercises.bankwithhashmap.bankaccount;
 
 import java.time.LocalDate;
 
@@ -62,9 +62,7 @@ public class Person {
 
     @Override
     public String toString() {
-        if (birthday == null)
-            return "name : " + getFirstName() + "\nlastname: " + getLastName();
-        return "name : " + getFirstName() + "\nlastname: " + getLastName() + "\nage: " + getAge();
+        return firstName + " " + lastName;
     }
 
 }
