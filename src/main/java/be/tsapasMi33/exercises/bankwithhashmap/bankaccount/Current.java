@@ -29,6 +29,11 @@ public class Current extends Account {
     }
 
     @Override
+    protected double calculateInterestRate() {
+        return this.getBalance() < 0 ? 0.0975 : 0.03;
+    }
+
+    @Override
     public void withdraw(double amount) {
         if (amount <= getBalance() + line) {
             super.withdraw(amount);

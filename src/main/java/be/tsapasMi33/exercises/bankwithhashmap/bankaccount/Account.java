@@ -38,4 +38,10 @@ public abstract class Account {
         target.deposit(amount);
         balance -= amount;
     }
+
+    protected abstract double calculateInterestRate();
+
+    public final void applyInterest(){
+        this.balance += this.balance * calculateInterestRate();
+    }
 }

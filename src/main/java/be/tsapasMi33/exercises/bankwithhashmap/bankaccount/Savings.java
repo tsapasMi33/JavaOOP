@@ -22,6 +22,11 @@ public class Savings extends Account{
     }
 
     @Override
+    protected double calculateInterestRate() {
+        return 0.045;
+    }
+
+    @Override
     public void withdraw(double amount) {
         if (amount <= getBalance()) {
             super.withdraw(amount);
