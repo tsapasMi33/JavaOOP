@@ -4,12 +4,12 @@ import java.time.LocalDate;
 import java.util.Scanner;
 
 public abstract class Animal {
-    private String name;//
-    private double weight;//
-    private String size;//
-    private String sex;//
-    private int age;//
-    private int humanAge;//
+    private String name;
+    private double weight;
+    private String size;
+    private String sex;
+    private int age;
+    private int humanAge;
     private double deathProbability;
     private LocalDate arrivalDate;
 

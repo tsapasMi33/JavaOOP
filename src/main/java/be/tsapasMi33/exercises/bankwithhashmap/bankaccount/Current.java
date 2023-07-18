@@ -4,7 +4,16 @@ public class Current extends Account {
     private double line;
 
     public Current(Person owner) {
-        super(owner);
+        this(owner, 0.0);
+    }
+
+    public Current(Person owner, double initialAmount){
+        this(owner, initialAmount,0.0);
+    }
+
+    public Current(Person owner, double initialAmount, double initialLine) {
+        super(owner, initialAmount);
+        line = initialLine;
     }
 
 

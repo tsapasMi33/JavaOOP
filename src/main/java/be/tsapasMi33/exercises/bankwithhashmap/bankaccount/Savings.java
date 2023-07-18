@@ -6,14 +6,18 @@ public class Savings extends Account{
     private LocalDate lastWithdraw;
 
     public Savings(Person owner) {
-        super(owner);
+        this(owner, 0.0);
+    }
+
+    public Savings(Person owner, double initialAmount){
+        super(owner, 0.0);
     }
 
     public LocalDate getLastWithdraw() {
         return lastWithdraw;
     }
 
-    public void setLastWithdraw(LocalDate lastWithdraw) {
+    private void setLastWithdraw(LocalDate lastWithdraw) {
         this.lastWithdraw = lastWithdraw;
     }
 

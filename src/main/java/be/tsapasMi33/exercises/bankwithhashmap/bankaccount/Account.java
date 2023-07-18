@@ -6,9 +6,10 @@ public abstract class Account {
     protected final Person owner;
     private double balance;
 
-    public Account(Person owner) {
+    public Account(Person owner, double initialAmount) {
         this.owner = owner;
         this.iban = "BE" + ibanCounter++;
+        balance = initialAmount;
     }
 
     public Person getOwner() {

@@ -1,5 +1,6 @@
 package be.tsapasMi33.exercises.petshop;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.Scanner;
@@ -88,12 +89,16 @@ public class PetShop {
 
     public static void nextDay(HashMap<String,Animal> animals) {
         Random r = new Random();
+        ArrayList<String> toDie= new ArrayList<>();
         for (Animal animal : animals.values()) {
             double dice = r.nextDouble(1);
             if (dice < animal.getDeathProbability()) {
-                animals.remove(animal.getName());
-                System.out.println(animal.getName() + " unfortunately died at the age of " + animal.getAge());
+                toDie.add(animal.getName());
             }
+        }
+        for (String name : toDie) {
+            animals.remove(name);
+            System.out.println(name + " unfortunately died during the night");
         }
     }
 }
