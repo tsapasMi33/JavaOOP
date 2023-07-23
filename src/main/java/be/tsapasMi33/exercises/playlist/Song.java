@@ -1,5 +1,7 @@
 package be.tsapasMi33.exercises.playlist;
 
+import java.util.ArrayList;
+
 public class Song {
     private String title;
     private double duration;
