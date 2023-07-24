@@ -1,5 +1,7 @@
 package be.tsapasMi33.exercises.bankwithhashmap.bankaccount;
 
+import be.tsapasMi33.exercises.bankwithhashmap.bankaccount.exceptions.InsufficientFundsException;
+
 public abstract class Account {
     protected static long ibanCounter = 283033000000000L;
     private final String iban;
@@ -24,13 +26,15 @@ public abstract class Account {
         return iban;
     }
 
-    public void withdraw(double amount) {
+    public void withdraw(double amount) throws InsufficientFundsException {
         balance -= amount;
     }
 
     public void deposit(double amount) {
         if (amount > 0) {
             balance += amount;
+        } else {
+            throw new IllegalArgumentException();
         }
     }
 

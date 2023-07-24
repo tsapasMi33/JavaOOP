@@ -1,5 +1,7 @@
 package be.tsapasMi33.exercises.bankwithhashmap.bankaccount;
 
+import be.tsapasMi33.exercises.bankwithhashmap.bankaccount.exceptions.InsufficientFundsException;
+
 public class Current extends Account {
     private double line;
 
@@ -25,6 +27,8 @@ public class Current extends Account {
     public void setLine(double line) {
         if (line >= 0) {
             this.line = line;
+        } else {
+            throw new IllegalStateException("THe line amount cannot be negative!");
         }
     }
 
@@ -34,9 +38,11 @@ public class Current extends Account {
     }
 
     @Override
-    public void withdraw(double amount) {
+    public void withdraw(double amount) throws InsufficientFundsException {
         if (amount <= getBalance() + line) {
             super.withdraw(amount);
+        } else {
+            throw new InsufficientFundsException();
         }
     }
 
@@ -51,4 +57,5 @@ public class Current extends Account {
     public String toString() {
         return owner + "'s " + this.getClass().getSimpleName() + "\n" + "-".repeat(10) + getIban() + "-".repeat(10) + "\nBalance: " + getBalance() +"\n\n";
     }
+
 }

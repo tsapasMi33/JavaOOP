@@ -1,5 +1,7 @@
 package be.tsapasMi33.exercises.bankwithhashmap.bankaccount;
 
+import be.tsapasMi33.exercises.bankwithhashmap.bankaccount.exceptions.InsufficientFundsException;
+
 import java.time.LocalDate;
 
 public class Savings extends Account{
@@ -27,10 +29,16 @@ public class Savings extends Account{
     }
 
     @Override
-    public void withdraw(double amount) {
+    public void withdraw(double amount) throws InsufficientFundsException {
         if (amount <= getBalance()) {
             super.withdraw(amount);
             setLastWithdraw(LocalDate.now());
+        } else {
+            try {
+                throw new InsufficientFundsException();
+            } catch (InsufficientFundsException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 

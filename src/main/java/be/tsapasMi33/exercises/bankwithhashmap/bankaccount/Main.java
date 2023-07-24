@@ -1,6 +1,7 @@
 package be.tsapasMi33.exercises.bankwithhashmap.bankaccount;
 
 import be.tsapasMi33.exercises.bankwithhashmap.Bank;
+import be.tsapasMi33.exercises.bankwithhashmap.bankaccount.exceptions.InsufficientFundsException;
 
 public class Main {
     public static void main(String[] args) {
@@ -24,8 +25,12 @@ public class Main {
         Account c1 = bank.getAccount("BE283033000000000");
         Account c2 = bank.getAccount("BE283033000000002");
 
-        c1.withdraw(1000);
-        System.out.println(c1);
+        try {
+            c1.withdraw(1000);
+        } catch (InsufficientFundsException e) {
+            System.out.println(e.getMessage());
+            System.out.println(c1);
+        }
         c1.deposit(2000);
         System.out.println(c1);
         c1.transfer(500, c2);
