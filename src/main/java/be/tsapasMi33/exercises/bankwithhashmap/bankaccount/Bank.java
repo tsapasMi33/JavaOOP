@@ -1,4 +1,4 @@
-package be.tsapasMi33.exercises.bankwithhashmap;
+package be.tsapasMi33.exercises.bankwithhashmap.bankaccount;
 
 import be.tsapasMi33.exercises.bankwithhashmap.bankaccount.Account;
 

@@ -19,11 +19,13 @@ public class Current extends Account {
     }
 
 
+    @Override
     public double getLine() {
         return line;
     }
 
 
+    @Override
     public void setLine(double line) {
         if (line >= 0) {
             this.line = line;

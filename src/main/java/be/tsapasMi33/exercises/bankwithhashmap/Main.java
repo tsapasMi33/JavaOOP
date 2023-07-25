@@ -1,6 +1,6 @@
-package be.tsapasMi33.exercises.bankwithhashmap.bankaccount;
+package be.tsapasMi33.exercises.bankwithhashmap;
 
-import be.tsapasMi33.exercises.bankwithhashmap.Bank;
+import be.tsapasMi33.exercises.bankwithhashmap.bankaccount.*;
 import be.tsapasMi33.exercises.bankwithhashmap.bankaccount.exceptions.InsufficientFundsException;
 
 public class Main {
@@ -12,13 +12,13 @@ public class Main {
 
 
         bank.addAccount(new Current(p1));
-        for (Account account: bank.getAccounts().values()) {
+        for (Account account : bank.getAccounts().values()) {
             System.out.println(account);
         }
 
         bank.addAccount(new Current(p2));
         bank.addAccount(new Savings(p2));
-        for (Account account: bank.getAccounts().values()) {
+        for (Account account : bank.getAccounts().values()) {
             System.out.println(account);
         }
 

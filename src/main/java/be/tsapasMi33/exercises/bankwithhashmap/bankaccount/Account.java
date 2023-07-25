@@ -2,11 +2,12 @@ package be.tsapasMi33.exercises.bankwithhashmap.bankaccount;
 
 import be.tsapasMi33.exercises.bankwithhashmap.bankaccount.exceptions.InsufficientFundsException;
 
-public abstract class Account {
+public abstract class Account implements Customer, Banker {
     protected static long ibanCounter = 283033000000000L;
     private final String iban;
     protected final Person owner;
     private double balance;
+
 
     public Account(Person owner, double initialAmount) {
         this.owner = owner;
@@ -14,22 +15,27 @@ public abstract class Account {
         balance = initialAmount;
     }
 
+    @Override
     public Person getOwner() {
         return owner;
     }
 
+    @Override
     public double getBalance() {
         return balance;
     }
 
+    @Override
     public String getIban() {
         return iban;
     }
 
+    @Override
     public void withdraw(double amount) throws InsufficientFundsException {
         balance -= amount;
     }
 
+    @Override
     public void deposit(double amount) {
         if (amount > 0) {
             balance += amount;
@@ -38,6 +44,7 @@ public abstract class Account {
         }
     }
 
+    @Override
     public void transfer(double amount, Account target) {
         target.deposit(amount);
         balance -= amount;
@@ -45,7 +52,8 @@ public abstract class Account {
 
     protected abstract double calculateInterestRate();
 
-    public final void applyInterest(){
+    @Override
+    public final void applyInterest() {
         this.balance += this.balance * calculateInterestRate();
     }
 }
