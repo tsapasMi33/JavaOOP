@@ -1,10 +1,8 @@
 package be.tsapasMi33.exercises.bankwithhashmap.bankaccount;
 
-import be.tsapasMi33.exercises.bankwithhashmap.bankaccount.Account;
-
 import java.util.HashMap;
 
-public class Bank {
+public class Bank implements WentNegativeSubscriber {
     private final String name;
     private HashMap<String, Account> accounts;
 
@@ -37,5 +35,10 @@ public class Bank {
         for (Account c : accounts.values()) {
             System.out.println(c);
         }
+    }
+
+    @Override
+    public void WentNegative(Account account) {
+        System.out.println("coucou");
     }
 }

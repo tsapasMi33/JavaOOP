@@ -22,7 +22,7 @@ public class Main {
             System.out.println(account);
         }
 
-        Account c1 = bank.getAccount("BE283033000000000");
+        Current c1 = (Current) bank.getAccount("BE283033000000000");
         Account c2 = bank.getAccount("BE283033000000002");
 
         try {
@@ -36,5 +36,12 @@ public class Main {
         c1.transfer(500, c2);
         System.out.println(c1);
         System.out.println(c2);
+        c1.setLine(2000);
+        try {
+            c1.withdraw(2100.0);
+        } catch (InsufficientFundsException e) {
+            System.out.println(e.getMessage());
+        }
+        System.out.println(c1);
     }
 }
