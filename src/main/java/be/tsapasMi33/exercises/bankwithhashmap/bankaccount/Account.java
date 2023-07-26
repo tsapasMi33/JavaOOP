@@ -10,14 +10,14 @@ public abstract class Account implements Customer, Banker {
     private final String iban;
     protected final Person owner;
     private double balance;
-    private List<AccountObserver> observers;
+    private List<onNegativeSubscriber> subscribers;
 
 
     public Account(Person owner, double initialAmount) {
         this.owner = owner;
         this.iban = "BE" + ibanCounter++;
         balance = initialAmount;
-        observers = new ArrayList<>();
+        subscribers = new ArrayList<>();
     }
 
     @Override
@@ -37,9 +37,13 @@ public abstract class Account implements Customer, Banker {
 
     @Override
     public void withdraw(double amount) throws InsufficientFundsException {
+        boolean wasPositve = false;
+        if (this.getBalance() >= 0){
+            wasPositve = true;
+        }
         balance -= amount;
-        if (this.getBalance() < 0) {
-            notifyObservers();
+        if (this.getBalance() < 0 && wasPositve) {
+            raiseOnNegativeEvent();
         }
     }
 
@@ -66,13 +70,13 @@ public abstract class Account implements Customer, Banker {
     }
 
 
-    public void addObserver(AccountObserver observer) {
-        observers.add(observer);
+    public void raiseOnNegativeEvent(){
+        for (onNegativeSubscriber s : subscribers) {
+            s.onNegative(this);
+        }
     }
 
-    private void notifyObservers(){
-        for (AccountObserver notification : observers) {
-            notification.handleNotification(this);
-        }
+    public void addOnNegativeEvent(onNegativeSubscriber subscriber) {
+        subscribers.add(subscriber);
     }
 }

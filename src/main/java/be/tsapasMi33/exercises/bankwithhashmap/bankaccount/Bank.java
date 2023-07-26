@@ -2,7 +2,7 @@ package be.tsapasMi33.exercises.bankwithhashmap.bankaccount;
 
 import java.util.HashMap;
 
-public class Bank implements AccountObserver {
+public class Bank {
     private final String name;
     private HashMap<String, Account> accounts;
 
@@ -12,8 +12,8 @@ public class Bank implements AccountObserver {
     }
 
     public void addAccount(Account newAccount) {
+        newAccount.addOnNegativeEvent(c -> this.onNegativeBalanceAction(c));
         accounts.put(newAccount.getIban(), newAccount);
-        newAccount.addObserver(this);
     }
 
     public boolean deleteAccount(String iban) {
@@ -38,14 +38,7 @@ public class Bank implements AccountObserver {
         }
     }
 
-    @Override
-    public void handleNotification(Account account) {
-        onNegativeBalance(account);
-    }
-
-    private void onNegativeBalance(Account account){
-        if (account instanceof Current && account.getBalance() < 0) {
-            System.out.println("Account with IBAN " + account.getIban() + " has a negative balance!");
-        }
+    private void onNegativeBalanceAction(Account account){
+        System.out.println("Account with IBAN " + account.getIban() + " has a negative balance!");
     }
 }
