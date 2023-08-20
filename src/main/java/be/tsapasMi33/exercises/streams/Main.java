@@ -1,178 +1,90 @@
 package be.tsapasMi33.exercises.streams;
 
-import java.util.*;
-import java.util.stream.IntStream;
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 public class Main {
-    static int counter = 0;
     public static void main(String[] args) {
-        List<String> bingoPool = new ArrayList<>(75);
 
-        int start = 1;
-        for (char c : "BINGO".toCharArray()) {
-            for (int i = start; i < (start + 15); i++) {
-                bingoPool.add("" + c + i);
-//                System.out.println("" + c + i);
-            }
-            start += 15;
-        }
-
-        Collections.shuffle(bingoPool);
-        for (int i = 0; i < 15; i ++) {
-            System.out.println(bingoPool.get(i));
-        }
-        System.out.println("----------------------------------------");
-
-//        List<String> firstOnes = bingoPool.subList(0, 15);
-        List<String> firstOnes = new ArrayList<>(bingoPool.subList(0, 15));
-        firstOnes.sort(Comparator.naturalOrder());
-        firstOnes.replaceAll(s -> {
-            if (s.indexOf('G') == 0 || s.indexOf('O') == 0) {
-                String updated = s.charAt(0) + "-" + s.substring(1);
-                System.out.print(updated + " ");
-                return updated;
-            }
-            return s;
-        });
-        System.out.println("\n---------------------------------------------");
-
-        for (int i = 0; i < 15; i ++) {
-            System.out.println(bingoPool.get(i));
-        }
-
-        var tempStream = bingoPool.stream()
-                .limit(15)
-                .filter(s -> s.indexOf('G') == 0 || s.indexOf('O') == 0)
-                .map(s -> s.charAt(0) + "-" + s.substring(1))
-                .sorted();
-//                .forEach(s -> System.out.print(s + " "));
-
-        tempStream.forEach(s -> System.out.print(s + " "));
-        System.out.println("\n---------------------------------------------");
-
-        String[] strings = {"One", "Two", "Three"};
-        var firstStream = Arrays.stream(strings)
-                .sorted(Comparator.reverseOrder());
+        Course pymc = new Course("PYMC", "Python Masterclass");
+        Course jmc = new Course("JMC", "Java Masterclass");
+//        Student tim = new Student("AU", 2019, 30, "M", true, jmc, pymc);
+//
+//        System.out.println(tim);
+//
+//        tim.watchLecture("JMC", 10, 5, 2019);
+//        tim.watchLecture("PYMC", 7, 7, 2020);
+//
+//        System.out.println(tim);
+//
+//        Stream.generate(() -> Student.getRandomStudent(jmc, pymc))
+//                .limit(10)
 //                .forEach(System.out::println);
+//
+        Student[] students = new Student[1000];
+        Arrays.setAll(students, i -> Student.getRandomStudent(jmc, pymc));
 
-        var secondStream = Stream.of("Six", "Five", "Four")
-                .map(String::toUpperCase);
-//                .forEach(System.out::println);
+        var maleStudents = Arrays.stream(students)
+                        .filter(s -> s.getGender().equals("M"));
 
-        Stream.concat(secondStream, firstStream)
-                .map(s -> s.charAt(0) + " - " + s)
-                .forEach(System.out::println);
+        System.out.println("# of male students " + maleStudents.count());
 
+        for (String gender : List.of("M", "F", "U")){
+            var myStudents = Arrays.stream(students)
+                    .filter(s -> s.getGender().equals(gender));
 
-        Map<Character, int[]> myMap = new LinkedHashMap<>();
-        int bingoIndex = 1;
-        for (char c : "BINGO".toCharArray()) {
-            int[] numbers = new int[15];
-            int labelNo = bingoIndex;
-            Arrays.setAll(numbers, i -> i + labelNo);
-            myMap.put(c, numbers);
-            bingoIndex += 15;
+            System.out.println("# of " + gender + " = " + myStudents.count());
         }
 
-        myMap.entrySet()
-                .stream()
-                .map(e -> e.getKey() + " has range: " + e.getValue()[0] + " - " + e.getValue()[e.getValue().length - 1])
-                .forEach(System.out::println);
+        List<Predicate<Student>> list = List.of(
+                student -> student.getAge() < 30,
+                student -> student.getAge() >= 30 && student.getAge() < 60
+        );
+
+        long total = 0;
+        for (int i = 0; i < list.size(); i++) {
+            var myStudents = Arrays.stream(students).filter(list.get(i));
+            long cnt = myStudents.count();
+            total += cnt;
+            System.out.printf("# of students(%s) = %d%n",
+                    i == 0 ? " < 30" : " >= 30 & < 60", cnt);
+        }
+        System.out.println("# of students >= 60 = " + (students.length - total));
 
 
-        Random random = new Random();
-        Stream.generate(() -> random.nextInt(2))
-                .limit(10)
-                .forEach(s -> System.out.print(s + " "));
-        System.out.println();
+        var ageStream = Arrays.stream(students)
+                .mapToInt(Student::getAgeEnrolled);
+        System.out.println("Stats for Enrollment Age = " + ageStream.summaryStatistics());
 
-        IntStream.iterate(1, n -> n + 1)
-                .filter(Main::isPrime)
-                .limit(20)
-                .forEach(s -> System.out.print(s + " "));
-        System.out.println();
+        var currentAgeStream = Arrays.stream(students)
+                .mapToInt(Student::getAge);
+        System.out.println("Stats for Age = " + currentAgeStream.summaryStatistics());
 
-        IntStream.iterate(1, n -> n + 1)
-                .limit(100)
-                .filter(Main::isPrime)
-                .forEach(s -> System.out.print(s + " "));
-        System.out.println();
-
-        IntStream.iterate(1, n -> n <= 100, n -> n + 1)
-                .filter(Main::isPrime)
-                .forEach(s -> System.out.print(s + " "));
-        System.out.println();
-
-        IntStream.range(1, 100)
-                .filter(Main::isPrime)
-                .forEach(s -> System.out.print(s + " "));
-        System.out.println();
-
-        IntStream.rangeClosed(1, 100)
-                .filter(Main::isPrime)
-                .forEach(s -> System.out.print(s + " "));
-        System.out.println();
-
-        System.out.println("-------------------------------------------------------");
-
-        int seed = 1;
-
-        var streamB = Stream.iterate(seed, i -> i <= 15, i -> i + 1)
-                .map(i -> "B" + i);
-
-        seed += 15;
-        var streamI = Stream.iterate(seed, i -> i + 1)
-                .limit(15)
-                .map(i -> "I" + i);
-
-        seed += 15;
-        int nSeed = seed;
-        String[] oLabels = new String[15];
-        Arrays.setAll(oLabels, i -> "N" + (nSeed + i));
-        var streamN = Arrays.stream(oLabels);
-
-        seed += 15;
-        var streamG = Stream.of("G46","G47","G48","G49","G50","G51","G52","G53","G54","G55","G56","G57","G58","G59","G60");
-
-        seed +=15;
-        int rSeed = seed;
-        var streamO = Stream.generate(Main::getCounter)
-                .limit(15)
-                .map(i -> "O" + (rSeed + i));
-
-        var streamBI = Stream.concat(streamB, streamI);
-        var streamBIN = Stream.concat(streamBI,streamN);
-        var streamBING = Stream.concat(streamBIN, streamG);
-        Stream.concat(streamBING, streamO)
-                .forEach(System.out::println);
-
-        System.out.println("----------------------------------------------------------------");
-
-        Stream.generate(() -> new Random().nextInt(rSeed, rSeed + 15))
+        Arrays.stream(students)
+                .map(Student::getCountryCode)
                 .distinct()
-                .limit(15)
-                .map(i -> "O" + i)
                 .sorted()
+                .forEach(s -> System.out.print(s + " "));
+        System.out.println();
+
+        boolean longTerm = Arrays.stream(students)
+                .anyMatch(s -> (s.getAge() - s.getAgeEnrolled() >= 7) && (s.getMonthsSinceActive() < 12));
+
+        System.out.println("longTerm students? " + longTerm);
+
+        long longTermNo = Arrays.stream(students)
+                .filter(s -> (s.getAge() - s.getAgeEnrolled() >= 7) && (s.getMonthsSinceActive() < 12))
+                .count();
+
+        System.out.println("longTerm students? " + longTermNo);
+
+        Arrays.stream(students)
+                .filter(s -> (s.getAge() - s.getAgeEnrolled() >= 7) && (s.getMonthsSinceActive() < 12))
+                .filter(student -> !student.hasProgrammingExperience())
+                .limit(5)
                 .forEach(System.out::println);
-    }
 
-    public static boolean isPrime(int wholeNumber) {
-        if (wholeNumber <= 2) {
-            return (wholeNumber == 2);
-        }
-
-        for (int divisor = 2; divisor < wholeNumber; divisor++) {
-            if (wholeNumber % divisor == 0) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-
-    private static int getCounter() {
-        return counter++;
     }
 }
