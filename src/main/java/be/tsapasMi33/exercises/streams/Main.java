@@ -1,8 +1,10 @@
 package be.tsapasMi33.exercises.streams;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Main {
@@ -80,11 +82,26 @@ public class Main {
 
         System.out.println("longTerm students? " + longTermNo);
 
-        Arrays.stream(students)
+        List<Student> longTermLearnersList = Arrays.stream(students)
                 .filter(s -> (s.getAge() - s.getAgeEnrolled() >= 7) && (s.getMonthsSinceActive() < 12))
                 .filter(student -> !student.hasProgrammingExperience())
                 .limit(5)
-                .forEach(System.out::println);
+                .toList();
+
+        var longTermLearnersArray = Arrays.stream(students)
+                .filter(s -> (s.getAge() - s.getAgeEnrolled() >= 7) && (s.getMonthsSinceActive() < 12))
+                .filter(student -> !student.hasProgrammingExperience())
+                .limit(5)
+                .toArray(Student[]::new);
+
+        var longTermLearners2 = Arrays.stream(students)
+                .filter(s -> (s.getAge() - s.getAgeEnrolled() >= 7) && (s.getMonthsSinceActive() < 12))
+                .filter(student -> !student.hasProgrammingExperience())
+                .limit(5)
+                .collect(Collectors.toList());
+
+        Collections.shuffle(longTermLearners2);
+
 
     }
 }
